@@ -1,8 +1,15 @@
-# This script makes a REST call to the Twitter API to get a stream of tweets (in English) on a user-provided keyword subject.
-
 import sys
 import oauth2 as oauth
 import urllib2 as urllib
+
+'''
+
+Author: Peter Cheung
+Last Modified: 7/23/14
+
+Description: This script makes a REST call to the Twitter API to get a stream of tweets (in English)
+on a user-provided keyword subject.
+'''
 
 dir(oauth)
 
@@ -25,11 +32,8 @@ http_handler  = urllib.HTTPHandler(debuglevel=_debug)
 https_handler = urllib.HTTPSHandler(debuglevel=_debug)
 
 ############################################################################################
+# This function constructs, signs, and opens a Twitter request
 ############################################################################################
-'''
-Construct, sign, and open a twitter request
-using the hard-coded credentials above.
-'''
 def twitterreq(url, method, parameters):
   req = oauth.Request.from_consumer_and_token(oauth_consumer,
                                              token=oauth_token,
@@ -55,10 +59,12 @@ def twitterreq(url, method, parameters):
   response = opener.open(url, encoded_post_data)
 
   return response
-
 ############################################################################################
 ############################################################################################
 
+############################################################################################
+# This function extracts all of the tweets from the Twiiter JSON response.
+############################################################################################
 def get_tweets(keyword):
 
   url = "https://api.twitter.com/1.1/search/tweets.json?q=" + keyword + "&lang=en"
@@ -72,7 +78,6 @@ def get_tweets(keyword):
     output_file.write(line.strip())
 
   output_file.close()
-
 ############################################################################################
 ############################################################################################
 
